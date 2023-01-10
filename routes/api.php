@@ -16,10 +16,17 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//public routes
 
 Route::resource('jobs', JobController::class);
 Route::resource('users', UserController::class);
 Route::resource('companies', CompanyController::class);
+
+//protected routes
+
+Route::middleware('auth:sanctum')->get('/user', function () {
+    
+});
 
 // Route::get('/jobs', [JobController::class, 'index']);
 
