@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\Job;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompanyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,18 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/jobs', function () {
-    return Job::all();
-});
+Route::resource('jobs', JobController::class);
+Route::resource('users', UserController::class);
+Route::resource('companies', CompanyController::class);
 
-Route::post('/jobs', function () {
-    return Job::create([
-        'name' => 'Job One',
-        'description' => 'description',
-        'location' => 'location',
+// Route::get('/jobs', [JobController::class, 'index']);
 
-    ]);
-});
+// Route::get('/users', [UserController::class, 'index']);
+
+// Route::get('/companies', [CompanyController::class, 'index']);
+
+// Route::post('/jobs', [JobController::class, 'store']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

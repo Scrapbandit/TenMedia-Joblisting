@@ -1,6 +1,11 @@
 <?php
 
+
+
 namespace App\Http\Controllers;
+
+use App\Models\Job;
+
 
 use Illuminate\Http\Request;
 
@@ -13,7 +18,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        //
+        return Job::all();
     }
 
     /**
@@ -24,7 +29,14 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'location' => 'required'
+
+        ]);
+
+        return Job::create($request->all());
     }
 
     /**
@@ -35,7 +47,7 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+        return Job::find($id);
     }
 
     /**
@@ -47,7 +59,9 @@ class JobController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $job = Job::find($id);
+        $job->update($request->all());
+        return $job;
     }
 
     /**
@@ -58,6 +72,6 @@ class JobController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Job::destroy($id);
     }
 }
