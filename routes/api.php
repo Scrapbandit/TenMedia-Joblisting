@@ -43,7 +43,7 @@ Route::resource('companies', CompanyController::class);
 
 // Route::get('/jobs', [JobController::class, 'index']);
 
-Route::get('/users', [UserController::class, 'index']);
+// Route::get('/users', [UserController::class, 'index']);
 
 // Route::get('/companies', [CompanyController::class, 'index']);
 

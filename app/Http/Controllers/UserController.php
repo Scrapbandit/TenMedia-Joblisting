@@ -2,73 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-
+use App\Interfaces\UserRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private UserRepositoryInterface $UserRepository;
+
+    public function __construct(UserRepositoryInterface $UserRepository)
     {
-        return User::all();
+        $this->UserRepository = $UserRepository;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function index(): JsonResponse
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'address' => 'required'
+        return response()->json([
+            'data' => $this->UserRepository->getAllUsers()
+        ]);
+    }
 
+    public function store(Request $request): JsonResponse
+    {
+        $UserName = $request->only([
+            'name',
+            'email',
+            'address'
         ]);
 
-        return User::create($request->all());
+        return response()->json(
+            [
+                'data' => $this->UserRepository->createUser($UserName)
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Request $request): JsonResponse
     {
-        return User::find($id);
+        $UserId = $request->route('id');
+
+        return response()->json([
+            'data' => $this->UserRepository->getUserById($UserId)
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request): JsonResponse
     {
-        $user = User::find($id);
-        $user->update($request->all());
-        return $user;
+        $UserId = $request->route('id');
+        $UserName = $request->only([
+            'name',
+            'email',
+            'address'
+        ]);
+
+        return response()->json([
+            'data' => $this->UserRepository->updateUser($UserId, $UserName)
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Request $request): JsonResponse
     {
-        return User::destroy($id);
+        $UserId = $request->route('id');
+        $this->UserRepository->deleteUser($UserId);
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
