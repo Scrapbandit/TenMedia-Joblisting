@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        return Company::all();
     }
 
     /**
@@ -27,7 +27,14 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'status' => 'required',
+            'address' => 'required'
+
+        ]);
+
+        return Company::create($request->all());
     }
 
     /**
@@ -38,7 +45,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        //
+        return Company::find($id);
     }
 
     /**
@@ -50,7 +57,9 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $company = Company::find($id);
+        $company->update($request->all());
+        return $company;
     }
 
     /**
@@ -61,6 +70,6 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Company::destroy($id);
     }
 }

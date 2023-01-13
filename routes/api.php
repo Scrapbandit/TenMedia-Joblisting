@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
@@ -16,21 +17,33 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//public routes
+//public routes http://localhost:8000/api/
 
 Route::resource('jobs', JobController::class);
 Route::resource('users', UserController::class);
 Route::resource('companies', CompanyController::class);
 
+
+// Route::get('/companies', function () {
+//     return Company::all();
+// });
+
+// Route::post('/companies', function () {
+//     return Company::create([
+//         'name' => 'Company one',
+//         'description' => 'comapny description',
+//         'location' => 'located at'
+//     ]);
+// });
 //protected routes
 
-Route::middleware('auth:sanctum')->get('/user', function () {
-    
-});
+// Route::group(['middlware' => ['auth:sanctum']], function () {
+//     Route::get('/users/{id}', [UserController::class]);
+// });
 
 // Route::get('/jobs', [JobController::class, 'index']);
 
-// Route::get('/users', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'index']);
 
 // Route::get('/companies', [CompanyController::class, 'index']);
 

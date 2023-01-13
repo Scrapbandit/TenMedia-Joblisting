@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
 use App\Models\Job;
@@ -31,8 +29,8 @@ class JobController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'description' => 'required',
-            'location' => 'required'
+            'status' => 'required',
+            'company' => 'required'
 
         ]);
 

@@ -9,4 +9,17 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Model
 {
     use HasFactory, HasApiTokens;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'address',
+    ];
+    /**
+     * Get the companies for the user.
+     */
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
 }
