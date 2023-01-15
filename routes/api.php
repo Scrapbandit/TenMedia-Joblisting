@@ -24,22 +24,17 @@ Route::resource('users', UserController::class);
 Route::resource('companies', CompanyController::class);
 
 
-// Route::get('/companies', function () {
-//     return Company::all();
-// });
 
-// Route::post('/companies', function () {
-//     return Company::create([
-//         'name' => 'Company one',
-//         'description' => 'comapny description',
-//         'location' => 'located at'
-//     ]);
-// });
-//protected routes
+// protected routes
 
-// Route::group(['middlware' => ['auth:sanctum']], function () {
-//     Route::get('/users/{id}', [UserController::class]);
-// });
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/users', [UserController::class, 'store']);
+    Route::post('/jobs', [JobController::class, 'store']);
+    Route::post('/companies', [CompanyController::class, 'store']);
+    Route::put('/users/{id}', [UserController::class, 'update']);
+    Route::put('/jobs/{id}', [JobController::class, 'update']);
+    Route::put('/companies/{id}', [CompanyController::class, 'update']);
+});
 
 // Route::get('/jobs', [JobController::class, 'index']);
 
